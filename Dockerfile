@@ -1,4 +1,4 @@
-FROM shasb.azurecr.io/node:6-onbuild
+FROM node:10-alpine
 LABEL "name"="Simple Express App"
 LABEL "maintainer"="Atul Malaviya <xyz@qwerty.com>"
 LABEL "version"="1.0.0"
