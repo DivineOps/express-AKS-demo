@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{Image.Repository}}
+  name: expressapp
 spec:
   type: LoadBalancer
   ports:
-  - port: {{Container.Port}}
+  - port: 3000
   selector:
-    app: {{Image.Repository}}
+    app: expressapp
