@@ -29,12 +29,11 @@ stages:
     displayName: Build job
     steps:
     - script: echo hello
-    - task: Docker@2
+    - task: Docker@1
       displayName: Build and push an image to container registry
       inputs:
-        command: buildAndPush
+        command: build
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
 
 
