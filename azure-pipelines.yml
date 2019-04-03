@@ -17,3 +17,16 @@ jobs:
     inputs:
       command: Build an image
       Dockerfile: '**/Dockerfile'
+      imageName: abc
+
+  - script: |
+     #!/bin/bash
+     docker container create --name nodeapp abc
+     docker cp nodeapp:/coverage $(System.DefaultWorkingDirectory)
+     displayName: Script
+
+    
+  - task: PublishCodeCoverageResults@1
+    inputs: 
+      codeCoverageTool: Cobertura
+      summaryFileLocation: $(System.DefaultWorkingDirectory)/**/*coverage.xml
