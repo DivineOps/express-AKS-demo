@@ -6,7 +6,7 @@
 trigger:
 - master
 
-pool: hosted
+pool: default
 
 variables:
   imageName: 'your-container-image-name:$(build.buildId)'
