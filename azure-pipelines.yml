@@ -1,0 +1,70 @@
+# Deploy to Kubernetes
+# Build a Docker image, push to an Azure Container Registry, and deploy it to Azure Kubernetes Service.
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+
+  # Container registry service connection established during pipeline creation - Docker Hub/ACR/...
+  dockerRegistryServiceConnection: '9a75d994-437a-4f04-9a8b-c0ce686eb876'
+  imageRepository: '$(build.repository.name)'
+  containerRegistryName: 'atulmakshelm'
+
+  dockerfilePath: '**/Dockerfile'
+
+  # Kubernetes Environment
+  environmentName: 'expressAKS-dev'
+  k8sResourceName: "smarthotel-web"
+  k8sResourceNamespace: "smarthotel-web"
+
+    # Docker Image Name
+  imageName: 'expressdraft-demo'
+  
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:  
+  - job: Build
+    displayName: Build job
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+  - deployment: DeploytoKubernetes
+    displayName: Deploy job
+    environment: expressAKS-dev.smarthotel-web
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: Kubernetes@2
+            displayName: 'kubectl create imagepullsecret docker-auth'
+            inputs:
+              containerRegistryType: 'Container Registry'
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+              secretName: 'docker-auth'
+              
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              namespace: $(k8sResourceNamespace)
+              manifests: |
+                manifests/*
+              containers: |
+                $(containerRegistryName)/$(imageRepository)
