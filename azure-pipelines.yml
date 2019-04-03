@@ -1,38 +1,18 @@
-# Deploy to Kubernetes
-# Build a Docker image, push to an Azure Container Registry, and deploy it to Azure Kubernetes Service.
+# Docker image
+# Build a Docker image to deploy, run, or push to a container registry.
+# Add steps that use Docker Compose, tag images, push to a registry, run an image, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
 - master
 
-resources:
-- repo: self
+pool: default
 
 variables:
+  imageName: 'your-container-image-name:$(build.buildId)'
+  dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+  buildContext: '$(Build.SourcesDirectory)'
 
-  # Container registry service connection established during pipeline creation - Docker Hub/ACR/...
-  dockerRegistryServiceConnection: '9a75d994-437a-4f04-9a8b-c0ce686eb876'
-  imageRepository: '$(build.repository.name)'
-  containerRegistryName: 'atulmakshelm'
-
-  dockerfilePath: '**/Dockerfile'
-
-  # Kubernetes Environment
-  environmentName: 'expressAKS-dev'
-  k8sResourceName: "smarthotel-web"
-  k8sResourceNamespace: "smarthotel-web"
-
-    # Docker Image Name
-  imageName: 'expressdraft-demo'
-  
-
-stages:
-- stage: Build
-  displayName: Build stage
-  jobs:  
-  - job: Build
-    displayName: Build job
-    steps:
-    - script: echo hello
-
-
+steps:
+- script: docker build -f $(dockerfile) -t $(imageName) $(buildContext)
+  displayName: 'docker build'
