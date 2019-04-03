@@ -18,7 +18,7 @@ variables:
   dockerfilePath: '**/Dockerfile'
 
   # Kubernetes Environment
-  environmentName: 'RoopeshNairExpressAppAKS'
+  environmentName: 'expressAKS-dev'
   k8sResourceName: "smarthotel-web"
   k8sResourceNamespace: "smarthotel-web"
 
@@ -47,7 +47,7 @@ stages:
   jobs:
   - deployment: Deploy to Kubernetes
     displayName: Deploy job
-    environment: $(environmentName).$(k8sResourceName)
+    environment: expressAKS-dev.smarthotel-web
     strategy:
       runOnce:
         deploy:
