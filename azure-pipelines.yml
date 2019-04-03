@@ -52,7 +52,7 @@ stages:
       runOnce:
         deploy:
           steps:
-          - task: Kubernetes@2
+          - task: Kubernetes@1
             displayName: 'kubectl create imagepullsecret docker-auth'
             inputs:
               containerRegistryType: 'Container Registry'
