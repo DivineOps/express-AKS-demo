@@ -6,7 +6,6 @@
 trigger:
 - master
 
-pool: default
 
 stages:
 - stage: Build
@@ -14,6 +13,8 @@ stages:
   jobs:  
   - job: Build
     displayName: Build job
+    pool: default
+    
     steps:
     - script: echo Hello, world!
       displayName: 'Run a one-line script'
