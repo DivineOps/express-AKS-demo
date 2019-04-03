@@ -33,7 +33,7 @@ stages:
   - job: Build
     displayName: Build job
     steps:
-    -script: echo hello
+    - script: echo hello
 
 - stage: Deploy
   displayName: Deploy stage
