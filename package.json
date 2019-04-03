@@ -16,5 +16,9 @@
   },
   "devDependencies": {
     "jest": "^23.6.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": ["cobertura"]
   }
 }
