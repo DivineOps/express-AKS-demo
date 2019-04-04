@@ -17,6 +17,8 @@ jobs:
 - deployment: DeployWeb
   displayName: Deploy job
   environment: smarthotel360-dev
+  dependsOn: DeployToKubernetes
+  dependsOn: 
   pool: default
   strategy:
     runOnce:
@@ -28,6 +30,7 @@ jobs:
 - deployment: DeployDB
   displayName: Deploy job
   environment: smarthotel360-dev
+  dependsOn: DeployWeb
   pool: default
   strategy:
     runOnce:
