@@ -42,9 +42,13 @@ stages:
         tags: |
           $(tag)
     - script: |
-      docker container create --name nodeapp express-aks
-      docker cp nodeapp:/coverage $(System.DefaultWorkingDirectory)
-      
+        docker container create --name nodeapp express-aks
+        docker cp nodeapp:/coverage $(System.DefaultWorkingDirectory)
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: $(System.DefaultWorkingDirectory)/**/*coverage.xml
+
 - stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
