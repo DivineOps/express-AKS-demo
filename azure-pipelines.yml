@@ -10,7 +10,7 @@ jobs:
   pool: default
   strategy:
     runOnce:
-      deploy:
+      deploy: deployk8s
         steps:
         - script: echo deploy kubernetes
 
@@ -21,7 +21,7 @@ jobs:
   pool: default
   strategy:
     runOnce:
-      deploy:
+      deploy: deploywebjob
         steps:
         - script: echo deploy web
 
@@ -33,6 +33,6 @@ jobs:
   pool: default
   strategy:
     runOnce:
-      deploy:
+      deploy: deployDB
         steps:
         - script: echo deploy web
