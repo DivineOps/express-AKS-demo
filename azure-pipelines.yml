@@ -41,7 +41,10 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
+    - script: |
+      docker container create --name nodeapp express-aks
+      docker cp nodeapp:/coverage $(System.DefaultWorkingDirectory)
+      
 - stage: Deploy
   displayName: Deploy stage
   dependsOn: Build
