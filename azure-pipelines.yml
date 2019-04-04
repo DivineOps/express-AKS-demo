@@ -8,28 +8,14 @@ trigger:
 resources:
 - repo: self
   
-
-stages:
-- stage: Build
-  displayName: Build stage
-  jobs:  
-  - job: Build
-    displayName: Build job
-    pool: default
-    steps:
-    - script: echo building and pushing the images to ACR
-
-- stage: Deploy
-  displayName: Deploy stage
-  dependsOn: Build
-  jobs:
-  - deployment: DeployToKubernetes
-    displayName: Deploy job
-    environment: smarthotel360-dev
-    pool: default
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - script: echo deploy kubernetes
+jobs:
+- deployment: DeployToKubernetes
+  displayName: Deploy job
+  environment: smarthotel360-dev
+  pool: default
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - script: echo deploy kubernetes
               
