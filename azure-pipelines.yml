@@ -1,30 +1,70 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Deploy to Kubernetes
+# Build a Docker image, push to an Azure Container Registry, and deploy it to Azure Kubernetes Service.
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
 - master
 
-jobs:
-- job: Build
-  displayName: Build job
-  pool:
-    vmImage: ubuntu-16.04
+resources:
+- repo: self
 
-  steps:
-  - task: Docker@1
-    inputs:
-      command: Build an image
-      Dockerfile: '**/Dockerfile'
-      imageName: abc
+variables:
 
-  - script: |
-     #!/bin/bash
-     docker container create --name nodeapp abc
-     docker cp nodeapp:/coverage $(System.DefaultWorkingDirectory)
+  # Container registry service connection established during pipeline creation - Docker Hub/ACR/...
+  dockerRegistryServiceConnection: 'b3ea6675-09b5-436f-bda2-6c0c34e57c58'
+  imageRepository: '$(build.repository.name)'
+  containerRegistryName: 'atulmakshelm'
 
-  - task: PublishCodeCoverageResults@1
-    inputs: 
-      codeCoverageTool: Cobertura
-      summaryFileLocation: $(System.DefaultWorkingDirectory)/**/*coverage.xml
+  dockerfilePath: '**/Dockerfile'
+
+  # Kubernetes Environment
+  environmentName: 'RoopeshNairExpressAppAKS'
+  k8sResourceName: "dev"
+  k8sResourceNamespace: "dev"
+
+    # Docker Image Name
+  imageName: 'expressaks'
+  
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:  
+  - job: Build
+    displayName: Build job
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+
+- stage: Deploy
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+  - deployment: DeployToKubernetes
+    displayName: Deploy job
+    environment: $(environmentName).$(k8sResourceName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: Kubernetes@2
+            displayName: 'kubectl create imagepullsecret docker-auth'
+            inputs:
+              containerRegistryType: 'Container Registry'
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+              secretName: 'docker-auth'
+              
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              namespace: $(k8sResourceNamespace)
+              manifests: |
+                manifests/*
+              containers: |
+                $(containerRegistryName)/$(imageRepository)
