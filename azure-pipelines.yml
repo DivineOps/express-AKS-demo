@@ -5,34 +5,34 @@
   
 jobs:
 - deployment: DeployToKubernetes
-  displayName: Deploy job
+  displayName: DeployK8s
   environment: smarthotel360-dev
   pool: default
   strategy:
     runOnce:
-      deploy: deployk8s
+      deploy: 
         steps:
         - script: echo deploy kubernetes
 
 - deployment: DeployWeb
-  displayName: Deploy job
+  displayName: Deploy Web
   environment: smarthotel360-dev
   dependsOn: DeployToKubernetes
   pool: default
   strategy:
     runOnce:
-      deploy: deploywebjob
+      deploy: 
         steps:
         - script: echo deploy web
 
 
 - deployment: DeployDB
-  displayName: Deploy job
+  displayName: Deploy Db
   environment: smarthotel360-dev
   dependsOn: DeployWeb
   pool: default
   strategy:
     runOnce:
-      deploy: deployDB
+      deploy: 
         steps:
         - script: echo deploy web
