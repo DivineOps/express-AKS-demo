@@ -7,23 +7,6 @@ trigger:
 
 resources:
 - repo: self
-
-variables:
-
-  # Container registry service connection established during pipeline creation - Docker Hub/ACR/...
-  dockerRegistryServiceConnection: '072ddc33-8af3-499b-acb9-2bfebeb21845'
-  imageRepository: 'express-aks'
-  containerRegistryName: 'atulmakshelm'
-
-  dockerfilePath: '**/Dockerfile'
-
-  # Kubernetes Environment
-  environmentName: 'expressAKS-dev'
-  k8sResourceName: "smarthotel-web"
-  k8sResourceNamespace: "smarthotel-web"
-
-    # Docker Image Name
-  imageName: 'express-aks'
   
 
 stages:
