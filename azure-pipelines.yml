@@ -22,7 +22,7 @@ variables:
   imagePullSecret: 'atulmakshelm-auth'
 
   # Agent Pool Name
-  poolName: 'Hosted Ubuntu 1604'
+  poolName: 'default'
 
 stages:
 - stage: Build
