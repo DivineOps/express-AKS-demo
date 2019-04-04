@@ -48,7 +48,7 @@ stages:
   jobs:
   - deployment: Deploy
     displayName: Deploy job
-    pool: $(poolName)
+    pool: default
     environment: 'RoopeshNairexpressAKS - 296017882.smarthotel-web'
     strategy:
       runOnce:
