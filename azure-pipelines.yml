@@ -5,7 +5,7 @@
   
 jobs:
 - deployment: DeployToKubernetes
-  displayName: DeployK8s
+  displayName: DeployK8sNamespace
   environment: smarthotel360-dev
   pool: default
   strategy:
