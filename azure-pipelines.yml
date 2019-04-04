@@ -42,7 +42,7 @@ stages:
         tags: |
           $(tag)
     - script: |
-        docker container create --name nodeapp express-aks
+        docker container create --name nodeapp express-aks:$(tag)
         docker cp nodeapp:/coverage $(System.DefaultWorkingDirectory)
     - task: PublishCodeCoverageResults@1
       inputs:
