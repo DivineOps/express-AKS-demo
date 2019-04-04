@@ -18,7 +18,6 @@ jobs:
   displayName: Deploy job
   environment: smarthotel360-dev
   dependsOn: DeployToKubernetes
-  dependsOn: 
   pool: default
   strategy:
     runOnce:
