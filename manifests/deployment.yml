@@ -15,4 +15,4 @@ spec:
         ports:
         - containerPort: 3000
       imagePullSecrets:
-      - name: docker-auth
+      - name: atulmakshelm-auth
