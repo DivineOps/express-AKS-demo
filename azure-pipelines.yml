@@ -15,7 +15,7 @@ jobs:
         - script: echo deploy kubernetes
 
 - deployment: DeployWeb
-  displayName: Deploy Web
+  displayName: Deploy Web resources
   environment: smarthotel360-dev
   dependsOn: DeployToKubernetes
   pool: default
@@ -27,7 +27,7 @@ jobs:
 
 
 - deployment: DeployDB
-  displayName: Deploy Db
+  displayName: Deploy Database
   environment: smarthotel360-dev
   dependsOn: DeployWeb
   pool: default
