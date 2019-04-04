@@ -42,7 +42,7 @@ stages:
   jobs:
   - deployment: DeployToKubernetes
     displayName: Deploy job
-    environment: expressAKS-dev.smarthotel-web
+    environment: smarthotel360-dev
     pool: default
     strategy:
       runOnce:
