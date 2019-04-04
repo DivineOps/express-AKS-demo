@@ -41,8 +41,13 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+    - task: Docker@1
+      inputs:
+        command: Build an image
+        Dockerfile: '**/Dockerfile'
+        imageName: abc
     - script: |
-        docker container create --name nodeapp express-aks:$(tag)
+        docker container create --name nodeapp abc
         docker cp nodeapp:/coverage $(System.DefaultWorkingDirectory)
     - task: PublishCodeCoverageResults@1
       inputs:
