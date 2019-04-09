@@ -47,8 +47,8 @@ stages:
         Dockerfile: '**/Dockerfile'
         imageName: abc
     - script: |
-        docker container create --name nodeapp abc
-        docker cp nodeapp:/coverage $(System.DefaultWorkingDirectory)
+        docker container create --name nodeapp$(Build.BuildId) abc
+        docker cp nodeapp$(Build.BuildId):/coverage $(System.DefaultWorkingDirectory)
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: 'Cobertura'
