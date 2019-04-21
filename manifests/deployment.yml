@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: divineopsexpressaks 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: divineopsexpressaks 
+    spec:
+      containers:
+        - name: divineopsexpressaks 
+          image: yamlk8.azurecr.io/divineopsexpressaks 
+          ports:
+          - containerPort: 3000
