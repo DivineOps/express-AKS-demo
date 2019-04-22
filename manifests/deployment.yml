@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: mynodeapp 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mynodeapp 
+    spec:
+      containers:
+        - name: mynodeapp 
+          image: yamlk8.azurecr.io/mynodeapp 
+          ports:
+          - containerPort: 3000
